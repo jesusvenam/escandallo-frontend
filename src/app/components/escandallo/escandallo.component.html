@@ -1,0 +1,51 @@
+<div class="content">
+    <h2 class="text-center">Escandallo de Recetas</h2>
+    <button class="btn btn-primary mb-3" (click)="abrirSeleccionarRecetas(seleccionarRecetasModal)">Seleccionar
+        Recetas</button>
+
+    <div *ngFor="let recipe of selectedRecipes" class="recipe-card mb-4">
+        <h3>{{ recipe.name }}</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Cantidad</th>
+                    <th>Merma (%)</th>
+                    <th>Precio Kilo</th>
+                    <th>Costo Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ingredient of recipe.ingredients">
+                    <td>{{ ingredient.name }}</td>
+                    <td>{{ ingredient.quantity }}</td>
+                    <td>{{ ingredient.merma }}%</td>
+                    <td>{{ ingredient.precio }}</td>
+                    <td>{{ calcularCosto(ingredient).toFixed(2) }} €</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-end"><strong>Costo Total del Plato</strong></td>
+                    <td><strong>{{ calcularCostoTotalPlato(recipe).toFixed(2) }} €</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal para seleccionar recetas -->
+<ng-template #seleccionarRecetasModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Seleccionar Recetas</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let recipe of recipes" (click)="seleccionarReceta(recipe)">
+                {{ recipe.name }}
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+</ng-template>

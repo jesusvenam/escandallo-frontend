@@ -1,0 +1,11 @@
+/* Añadir espaciado adicional alrededor de la tabla */
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Si deseas bordes redondeados en las celdas */
+.table td,
+.table th {
+  border-radius: 8px;
+}

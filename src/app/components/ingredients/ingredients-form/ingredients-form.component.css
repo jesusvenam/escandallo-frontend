@@ -1,0 +1,78 @@
+/* Estilos generales */
+h1 {
+  text-align: center;
+  font-style: unset;
+  text-decoration: underline;
+}
+
+form {
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Inputs generales */
+input {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+  width: 80%;
+  /* Ancho del input para hacerlo más grande */
+  font-size: 1.2rem;
+  /* Tamaño de la fuente mayor */
+}
+
+/* Botones */
+button {
+  margin-top: 0px;
+}
+
+/* Lista de ingredientes */
+.ingredient-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.ingredient-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  /* Tamaño de la fuente mayor */
+  font-weight: bold;
+}
+
+.ingredient-item div button {
+  margin-left: 10px;
+  font-size: 0.85rem;
+}
+
+/* Inputs dentro del modal más grandes */
+.input-large {
+  font-size: 1.2rem;
+  padding: 15px;
+  width: 100%;
+  /* Asegura que el input sea más grande */
+}
+
+/* Modal */
+.modal-header {
+  text-align: center;
+}
+
+.arrow-container {
+  margin-bottom: 10px;
+}
+
+.arrow-container svg {
+  width: 50px;
+  height: 50px;
+  color: black;
+}
