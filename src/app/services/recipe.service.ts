@@ -1,31 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Ingredient } from '../models/ingredient.model';
-
-export interface Recipe {
-  id?: number;
-  name: string;
-  description: string;
-  preparation: string;
-  ingredients: Ingredient[];
-}
+import { RecipeModel } from '../models/recipe-model'; // Importa el nuevo modelo
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  private apiUrl = 'http://localhost:8080/recipes'; // URL correcta de JSON Server
+  private apiUrl = 'http://localhost:8080/recipes';
 
   constructor(private http: HttpClient) {}
 
-  getRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.apiUrl);
+  getRecipes(): Observable<RecipeModel[]> {
+    return this.http.get<RecipeModel[]>(this.apiUrl);
   }
 
-  createRecipe(recipe: Recipe): Observable<Recipe> {
-    console.log('Creating recipe:', recipe);
-    return this.http.post<Recipe>(this.apiUrl, recipe);
+  createRecipe(recipe: RecipeModel): Observable<RecipeModel> {
+    return this.http.post<RecipeModel>(this.apiUrl, recipe);
+  }
+
+  updateRecipe(recipe: RecipeModel): Observable<RecipeModel> {
+    return this.http.put<RecipeModel>(`${this.apiUrl}/${recipe.id}`, recipe); // Asegurarse de que la URL es correcta
   }
 
   deleteRecipe(id: number): Observable<void> {

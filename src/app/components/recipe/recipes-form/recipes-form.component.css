@@ -1,3 +1,6 @@
 textarea {
   resize: none;
 }
+button{
+  background-color: blue;
+}

@@ -1,52 +1,113 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { IngredientService } from '../../services/ingredients.service'; 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Ingredient } from '../../models/ingredient.model';
-
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { IngredientService } from '../../services/ingredients.service';
+import { Ingredient } from '../../models/ingredient.model'; 
+import { EventEmitter, Output } from '@angular/core';
+import { ModalService } from '../../services/modal.service'; 
+import { RecipeModel } from '../../models/recipe-model'; 
 @Component({
-  standalone: true,
   selector: 'app-ingredients',
   templateUrl: './ingredients.component.html',
   styleUrls: ['./ingredients.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, NgbModule, FormsModule]
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NgbModule, ],
 })
-export class IngredientsComponent implements OnInit {
-  ingredients: Ingredient[] = [];
-  editedIngredient: Ingredient = { name: '', quantity: '', merma: 0, precio: 0 };
+export class IngredientsComponent {
+  ingredients!: FormGroup;
 
-  constructor(private ingredientService: IngredientService, private modalService: NgbModal) {}
+   @Output() closeModal = new EventEmitter<void>(); // Emite el evento para cerrar el modal
 
-  ngOnInit(): void {
-    this.cargarIngredientes();
-  }
+  // Lista para almacenar los ingredientes seleccionados (con cantidad, merma y precio)
+  selectedIngredients: Ingredient[] = [];
 
-  cargarIngredientes(): void {
-    this.ingredientService.selectedIngredients$.subscribe((ingredients) => {
-      this.ingredients = ingredients;
+  // Variables para el modal
+  selectedIngredient: string = '';
+  ingredientQuantity: string = '';
+  ingredientMerma: number | null = null;
+  ingredientPrecio: number | null = null;
+
+  // Para editar ingredientes
+  editIngredient: any = {};
+
+  constructor(
+    private fb: FormBuilder,
+    private modalService: NgbModal,
+    private ingredientService: IngredientService // Inyecta el servicio
+  ) {
+    this.ingredients = this.fb.group({
+      name: [''],
+      description: [''],
+      preparation: [''],
     });
   }
 
-  deleteIngredient(index: number): void {
-    const updatedIngredients = [...this.ingredients];
-    updatedIngredients.splice(index, 1);
-    this.ingredientService.updateIngredients(updatedIngredients);
+  // Método para abrir el modal de agregar ingrediente
+  openIngredientModal(content: any) {
+    this.modalService.open(content, { centered: true });
   }
 
-  editIngredient(ingredient: Ingredient, modal: any): void {
-    this.editedIngredient = { ...ingredient };
+  // Método para agregar el ingrediente con sus detalles
+  addIngredient(modal: any) {
+    if (
+      this.selectedIngredient &&
+      this.ingredientQuantity &&
+      this.ingredientMerma != null &&
+      this.ingredientPrecio != null
+    ) {
+      // Añadir el ingrediente con los detalles
+      this.selectedIngredients.push({
+        name: this.selectedIngredient,
+        quantity: this.ingredientQuantity,
+        merma: this.ingredientMerma,
+        precio: this.ingredientPrecio,
+      });
+
+      // Actualizar el servicio con los ingredientes seleccionados
+      this.ingredientService.updateIngredients(this.selectedIngredients);
+
+      // Limpiar los campos del modal
+      this.selectedIngredient = '';
+      this.ingredientQuantity = '';
+      this.ingredientMerma = null;
+      this.ingredientPrecio = null;
+
+      // Cerrar el modal
+      modal.close();
+    } else {
+      alert('Por favor, complete todos los campos');
+    }
+  }
+
+  // Método para eliminar un ingrediente
+  removeIngredient(index: number) {
+    this.selectedIngredients.splice(index, 1);
+    this.ingredientService.updateIngredients(this.selectedIngredients); // Actualizar el servicio con la lista actualizada
+  }
+
+  // Método para abrir el modal de edición de ingrediente
+  openEditModal(modal: any, index: number) {
+    this.editIngredient = { ...this.selectedIngredients[index] }; // Copia del ingrediente
     this.modalService.open(modal, { centered: true });
   }
 
-  saveEditedIngredient(modal: any): void {
-    const index = this.ingredients.findIndex(ing => ing.name === this.editedIngredient.name);
+  // Método para guardar los cambios de un ingrediente
+  saveEdit(modal: any) {
+    const index = this.selectedIngredients.findIndex(
+      (item) => item.name === this.editIngredient.name
+    );
     if (index !== -1) {
-      const updatedIngredients = [...this.ingredients];
-      updatedIngredients[index] = { ...this.editedIngredient };
-      this.ingredientService.updateIngredients(updatedIngredients);
+      this.selectedIngredients[index] = { ...this.editIngredient };
+      this.ingredientService.updateIngredients(this.selectedIngredients); // Actualizar el servicio con los ingredientes editados
     }
     modal.close();
+  }
+
+  // Manejar el envío del formulario
+  onSubmit() {
+    console.log('Receta creada:', this.ingredients.value);
+    console.log('Ingredientes:', this.selectedIngredients);
   }
 }

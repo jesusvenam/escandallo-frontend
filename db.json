@@ -1,30 +1,22 @@
 {
   "recipes": [
     {
-      "id": "2a57",
-      "name": "aefqrgqfAC",
-      "description": "ASD",
-      "preparation": "adsasdASDasdASDasdASD",
+      "id": "a913",
+      "name": "pulpo gallega",
+      "description": "kjahflig",
+      "preparation": "lkihjvouihv",
       "ingredients": [
         {
-          "name": "asd",
-          "quantity": "200",
-          "merma": 2,
-          "precio": 309
-        }
-      ]
-    },
-    {
-      "id": "91cd",
-      "name": "ASDFVF",
-      "description": "das",
-      "preparation": "asfv",
-      "ingredients": [
+          "name": "aceite de oliva",
+          "quantity": "20 gramos",
+          "merma": 0,
+          "precio": 25
+        },
         {
-          "name": "asd",
-          "quantity": "1234",
-          "merma": 2,
-          "precio": 309
+          "name": "pimenton ",
+          "quantity": "0.50 gramos",
+          "merma": 0,
+          "precio": 12
         }
       ]
     }

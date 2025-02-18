@@ -1,0 +1,78 @@
+<div class="container mt-4">
+    <h2 class="text-center">Crear Escandallo</h2>
+    <button type="button" class="btn btn-primary" (click)="openModal(content)">Seleccionar Recetas</button>
+    <button type="button" class="btn btn-secondary" (click)="openEscandallosModal(escandallosModal)">Ver Escandallos
+        Guardados</button>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">Seleccionar Recetas</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <ul class="list-group">
+                <li *ngFor="let receta of recetas" class="list-group-item">
+                    <input type="checkbox" [(ngModel)]="receta.seleccionada"> {{ receta.name }}
+                </li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.close()">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)="agregarRecetasSeleccionadas(); modal.close()">Agregar
+                Recetas</button>
+        </div>
+    </ng-template>
+    <form (ngSubmit)="onSubmit()">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre de la Receta</th>
+                    <th>Nombre del Ingrediente</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of ingredientes; let i = index">
+                    <td>{{ item.recipeName }}</td>
+                    <td>{{ item.ingredient.name }}</td>
+                    <td>{{ item.ingredient.quantity }}</td>
+                    <td>{{ item.calculatedCost.toFixed(2) }} €</td>
+                    <td><button type="button" class="btn btn-danger" (click)="removeIngrediente(i)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <h4>Costo Total del Plato: {{ totalCost.toFixed(2) }} €</h4>
+            <button type="submit" class="btn btn-success mt-2">Guardar Escandallo</button>
+        </div>
+    </form>
+
+    <!-- Modal para ver escandallos guardados -->
+    <ng-template #escandallosModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title w-100 text-center">Escandallos Guardados</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <ul class="list-group">
+                <li *ngFor="let escandallo of escandallosGuardados; let i = index" class="list-group-item">
+                    <div><strong>Fecha:</strong> {{ escandallo.fecha }}</div>
+                    <div><strong>Costo Total:</strong> {{ escandallo.totalCost.toFixed(2) }} €</div>
+                    <ul>
+                        <li *ngFor="let ingrediente of escandallo.ingredientes">
+                            {{ ingrediente.recipeName }} - {{ ingrediente.ingredient.name }}: {{
+                            ingrediente.calculatedCost.toFixed(2) }} €
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        (click)="eliminarEscandallo(i)">Eliminar</button>
+                </li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.close()">Cerrar</button>
+        </div>
+    </ng-template>
+</div>

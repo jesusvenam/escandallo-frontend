@@ -1,6 +1,6 @@
 /* Estilos generales para la barra de navegación */
 .navbar {
-  background-color: #d2cd9a !important; /* Color de fondo */
+  background-color: #e8f0f2 !important; /* Color de fondo */
   padding: 15px 20px; /* Espaciado interno */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
@@ -34,15 +34,15 @@
 
 .nav-link {
   font-size: 18px;
-  color: #007bff !important; /* Color de los enlaces */
+  color: #010505 !important; /* Color de los enlaces */
   transition: color 0.3s ease-in-out;
   padding: 10px 15px;
   border-radius: 5px;
 }
 
 .nav-link:hover {
-  color: #0056b3 !important; /* Color al pasar el mouse */
-  background-color: rgba(0, 123, 255, 0.1);
+  color: #060809 !important; /* Color al pasar el mouse */
+  background-color: rgba(211, 224, 226, 0.929);
 }
 
 /* Responsive */

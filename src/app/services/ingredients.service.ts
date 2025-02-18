@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Ingredient } from '../models/ingredient.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IngredientService {
-  private selectedIngredientsSubject = new BehaviorSubject<any[]>([]);
-  selectedIngredients$ = this.selectedIngredientsSubject.asObservable();
+  private ingredientsSubject = new BehaviorSubject<Ingredient[]>([]);
+  selectedIngredients$ = this.ingredientsSubject.asObservable();
 
-  constructor() {}
-
-  // Método para actualizar los ingredientes
-  updateIngredients(ingredients: any[]) {
-    this.selectedIngredientsSubject.next(ingredients);
+  addIngredient(ingredient: Ingredient): void {
+    const currentIngredients = this.ingredientsSubject.value;
+    const updatedIngredients = [...currentIngredients, ingredient];
+    this.ingredientsSubject.next(updatedIngredients);
   }
 
-  // Método para obtener los ingredientes actuales
-  getIngredients(): any[] {
-    return this.selectedIngredientsSubject.getValue();
+  updateIngredients(ingredients: Ingredient[]): void {
+    this.ingredientsSubject.next(ingredients);
   }
 }
-
-

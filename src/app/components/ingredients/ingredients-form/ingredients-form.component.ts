@@ -5,6 +5,9 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { IngredientService } from '../../../services/ingredients.service'; 
 import { Ingredient } from '../../../models/ingredient.model';
+import { EventEmitter, Output } from '@angular/core';
+import { ModalService } from '../../../services/modal.service';
+
 
 @Component({
   standalone: true,
@@ -15,6 +18,8 @@ import { Ingredient } from '../../../models/ingredient.model';
 })
 export class IngredientsFormComponent {
   ingredientsForm!: FormGroup;
+
+   @Output() closeModal = new EventEmitter<void>(); // Emite el evento para cerrar el modal
 
   // Lista para almacenar los ingredientes seleccionados (con cantidad, merma y precio)
   selectedIngredients: Ingredient[] = [];
